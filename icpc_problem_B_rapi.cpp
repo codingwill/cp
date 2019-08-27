@@ -32,34 +32,32 @@ int main()
 	}
 	
 	//MENYISIPKAN KOMA KE DALAM KALIMAT SESUAI ATURAN DR. SPRINKLER
-	bool noKoma = false;
-	i = 0;
+	i = 0;	
 	int ulang = 0;
-	int nKomaOld = 0, nKomaNew = 0;
-	while(!noKoma)
+	string bef, af;
+	for (i = 0; i <= x; i++)
 	{
-		string bef, af;
-		int nKoma[100000];
-		memset(nKoma, 0, sizeof(nKoma));
-		for (i = 0; i <= x; i++)
+		//cout << "tes" << endl;		
+		if (subW[i] == ",")
 		{
-			if (subW[i] == ",")
+			//cout << "-----------------------" << "\n";
+			bef = subW[i-1];  
+			af = subW[i+1];
+		//	nKoma[ulang]++;
+			for (int k = 0; k <= x; k++)
 			{
-				bef = subW[i-1];  
-				af = subW[i+1];
-				nKoma[ulang]++;
-				for (int k = 0; k <= x; k++)
+				if (subW[k] == bef && subW[k+1] != "." && subW[k+1] != ",")
 				{
-					if (subW[k] == bef && subW[k+1] != "." && subW[k+1] != ",")
+					x++;
+					for (int n = x; n > k+1; n--)
 					{
-						x++;
-						for (int n = x; n > k+1; n--)
-						{
-							subW[n] = subW[n-1];
-						}
-						subW[k+1] = ",";
+						subW[n] = subW[n-1];
 					}
-					else if (subW[k] == af && subW[k-1] != "." && subW[k-1] != ",")
+					subW[k+1] = ",";
+				}
+				if (k > 0) //penyisipan koma di belakang kata hanya berlaku jika kata tersebut bukan kata pertama pada kalimat #bugfix_01
+				{
+					if (subW[k] == af && subW[k-1] != "." && subW[k-1] != ",")
 					{
 						x++;
 						for (int n = x; n > k; n--)
@@ -68,21 +66,10 @@ int main()
 						}
 						subW[k] = ",";
 					}
-					else
-					{
-					}
-				}	
-			}
+				}
+
+			}	
 		}
-		if (ulang > 0)
-		{
-			if (nKoma[ulang-1] == nKoma[ulang])
-			{
-				noKoma = true;	
-			}
-		}
-		ulang++;
-		noKoma = true;
 	}
 	
 	//MENCETAK KALIMAT YANG SUDAH DIEDIT BERDASARKAN ATURAN DR. SPRINKLER DAN KAIDAH PENULISAN KALIMAT
